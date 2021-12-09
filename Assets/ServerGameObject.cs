@@ -20,7 +20,7 @@ public class ServerGameObject : MonoBehaviour
         bool isServerConnected = Server.ConnectToServer(ip, 13000);
         if (!isServerConnected)
         {
-            Debug.LogError("Failed To Connect To Server, Not Trying Again Cause You are stupid");
+            Debug.LogError("Failed To Connect To Server, Idiot forgot to start the server again");
         }
     }
 
@@ -33,6 +33,9 @@ public class ServerGameObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(Server.GetServerMessageStatus())
+        {
+
+        }
     }
 }

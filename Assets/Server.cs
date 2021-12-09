@@ -9,22 +9,11 @@ using System;
 using UnityEngine.Events;
 namespace ServerStuff
 {
-    public class Server : MarshalByRefObject
+    public class Server
     {
         static TcpClient client;
         static byte[] data;
         static string recieved;
-        static UnityEvent<GameObject, Vector3> MoveComponentEvent = new UnityEvent<GameObject, Vector3>();
-        #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-        static async void ServerUpdate()
-        {
-            Debug.Log("Started Running");
-            while (true)
-            {
-                Debug.Log("Running");
-            }
-        }
-
         public static bool RunCommand(string fullcommand)
         {
             int command = int.Parse(fullcommand.Substring(2, 3));
@@ -35,7 +24,7 @@ namespace ServerStuff
                         Debug.Log("Message Recieved From Server");
                         if (!GameObject.Find(GetArg(fullcommand, 0)))
                         {
-                            Debug.LogError("GameObject Sent by Server is not Found");
+                            Debug.LogError("GameObject Sent by Server aint there, you done fucked up bruv");
                             break;
                         }
                         try
@@ -47,7 +36,7 @@ namespace ServerStuff
                         }
                         catch
                         {
-                            Debug.LogError("Positions Recived From Server Are Invalid");
+                            Debug.LogError("Positions Recived From Server Are messed up");
                         }
                         return false;
                     }
@@ -62,20 +51,30 @@ namespace ServerStuff
             string[] args = command.Split(',');
             return args[index];
         }
-
-        static bool GetServerMessageStatus()
+        public static bool isConnected()
+        {
+            return client.Connected;
+        }
+        public static bool GetServerMessageStatus()
         {
             int i;
-            NetworkStream stream = client.GetStream();
-            if ((i = stream.Read(data, 0, data.Length)) != 0)
+            try
             {
-                recieved = Encoding.ASCII.GetString(data, 0, i);
-                Debug.Log("Received: " + recieved);
+                NetworkStream stream = client.GetStream();
+                if ((i = stream.Read(data, 0, data.Length)) != 0)
+                {
+                    recieved = Encoding.ASCII.GetString(data, 0, i);
+                    Debug.Log("Received: " + recieved);
 
-                SendMessageToServer("*&Recieved");
-                Debug.Log("Sent confirmation");
-                return true;
+                    SendMessageToServer("*&1");
+                    Debug.Log("Sent confirmation");
+                    return true;
+                }
             }
+            catch
+            {
+            }
+            
             return false;
         }
 
@@ -86,17 +85,18 @@ namespace ServerStuff
             stream.Write(data, 0, data.Length);
             Debug.Log("sent: " + message + " to server");
         }
+
         public static bool ConnectToServer(string ip, Int32 port)
         {
             try
             {
                 client = new TcpClient(ip, port);
+                SendMessageToServer("*&0");
             }
             catch
             {
                 return false;
             }
-            ServerUpdate();
             return true;
         }
     }
