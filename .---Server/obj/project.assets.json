@@ -8,20 +8,25 @@
     ".NETCoreApp,Version=v3.1": []
   },
   "packageFolders": {
-    "C:\\Users\\rudy\\.nuget\\packages\\": {}
+    "C:\\Users\\Rudy Soliz\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\rudy\\OneDrive\\Desktop\\Rubybox-Games\\.---Server\\GameServer.csproj",
+      "projectUniqueName": "R:\\Unity\\Server Testing\\.---Server\\GameServer.csproj",
       "projectName": "GameServer",
-      "projectPath": "C:\\Users\\rudy\\OneDrive\\Desktop\\Rubybox-Games\\.---Server\\GameServer.csproj",
-      "packagesPath": "C:\\Users\\rudy\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\rudy\\OneDrive\\Desktop\\Rubybox-Games\\.---Server\\obj\\",
+      "projectPath": "R:\\Unity\\Server Testing\\.---Server\\GameServer.csproj",
+      "packagesPath": "C:\\Users\\Rudy Soliz\\.nuget\\packages\\",
+      "outputPath": "R:\\Unity\\Server Testing\\.---Server\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+      ],
       "configFilePaths": [
-        "C:\\Users\\rudy\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\Rudy Soliz\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -60,7 +65,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.403\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

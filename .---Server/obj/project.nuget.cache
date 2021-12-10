@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5nQ1AUYy9t0nzwi0Rp1jXr3Ng04RSHIOmYV1f/ltWZZlnZNxEdwD7p+9flHQMYUqHwJzq+gQa4eNQ44obwM77w==",
+  "dgSpecHash": "PYrqy4NGHP5LgH9YjujprFJsUli0gE/Pcyr+or63inLYAu1qM0GdqPTnT52NllwIWq4JAXsN8m7U9xp14b4Rqw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\rudy\\OneDrive\\Desktop\\Rubybox-Games\\.---Server\\GameServer.csproj",
+  "projectFilePath": "R:\\Unity\\Server Testing\\.---Server\\GameServer.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

@@ -85,3 +85,17 @@ C:\Users\rudy\OneDrive\Desktop\Rubybox-Games\.---Server\obj\Debug\netcoreapp3.1\
 C:\Users\rudy\OneDrive\Desktop\Rubybox-Games\.---Server\obj\Debug\netcoreapp3.1\GameServer.dll
 C:\Users\rudy\OneDrive\Desktop\Rubybox-Games\.---Server\obj\Debug\netcoreapp3.1\GameServer.pdb
 C:\Users\rudy\OneDrive\Desktop\Rubybox-Games\.---Server\obj\Debug\netcoreapp3.1\GameServer.genruntimeconfig.cache
+R:\Unity\Server Testing\.---Server\obj\Debug\netcoreapp3.1\GameServer.csproj.AssemblyReference.cache
+R:\Unity\Server Testing\.---Server\obj\Debug\netcoreapp3.1\GameServer.GeneratedMSBuildEditorConfig.editorconfig
+R:\Unity\Server Testing\.---Server\obj\Debug\netcoreapp3.1\GameServer.AssemblyInfoInputs.cache
+R:\Unity\Server Testing\.---Server\obj\Debug\netcoreapp3.1\GameServer.AssemblyInfo.cs
+R:\Unity\Server Testing\.---Server\obj\Debug\netcoreapp3.1\GameServer.csproj.CoreCompileInputs.cache
+R:\Unity\Server Testing\.---Server\obj\Debug\netcoreapp3.1\GameServer.dll
+R:\Unity\Server Testing\.---Server\obj\Debug\netcoreapp3.1\GameServer.pdb
+R:\Unity\Server Testing\.---Server\bin\Debug\netcoreapp3.1\GameServer.exe
+R:\Unity\Server Testing\.---Server\bin\Debug\netcoreapp3.1\GameServer.deps.json
+R:\Unity\Server Testing\.---Server\bin\Debug\netcoreapp3.1\GameServer.runtimeconfig.json
+R:\Unity\Server Testing\.---Server\bin\Debug\netcoreapp3.1\GameServer.runtimeconfig.dev.json
+R:\Unity\Server Testing\.---Server\bin\Debug\netcoreapp3.1\GameServer.dll
+R:\Unity\Server Testing\.---Server\bin\Debug\netcoreapp3.1\GameServer.pdb
+R:\Unity\Server Testing\.---Server\obj\Debug\netcoreapp3.1\GameServer.genruntimeconfig.cache

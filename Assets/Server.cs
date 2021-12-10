@@ -24,7 +24,7 @@ namespace ServerStuff
                         Debug.Log("Message Recieved From Server");
                         if (!GameObject.Find(GetArg(fullcommand, 0)))
                         {
-                            Debug.LogError("GameObject Sent by Server aint there, you done fucked up bruv");
+                            Debug.LogError("GameObject Sent by Server aint there, you done messed up bruv");
                             break;
                         }
                         try

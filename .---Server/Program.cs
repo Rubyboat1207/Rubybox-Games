@@ -10,78 +10,58 @@ namespace GameServer
 {
     class Player
     {
-        public Player(TcpClient client, NetworkStream steam)
+        public TcpClient tcpClient;
+        public NetworkStream stream;
+        public Player(TcpClient client, NetworkStream steam, int identifier)
         {
-
+            id = identifier;
+            stream = steam;
+            tcpClient = client;
         }
         public int id;
-    }
-    class ServerProgram //SERVER
-    {
-        static Int32 port = 13000;
-        static IPAddress localaddr = IPAddress.Parse("0.0.0.0");
-        static TcpListener server = new TcpListener(localaddr, port);
-        static List<Player> playerList = new List<Player>();
-        static List<TcpClient> clients = new List<TcpClient>();
 
-        static void Main()
+        public async void ManageRequests()
         {
-            Console.WriteLine("Server Starting");
-            server.Start();
-
             byte[] bytes = new byte[256];
             string data = null;
-            
-            while(true)
+            bool connect = true;
+            while(connect)
             {
-                Console.Write("Waiting for a connection... ");
-
-                // Perform a blocking call to accept requests.
-                // You could also use server.AcceptSocket() here.
-                clients.Add(server.AcceptTcpClient());
                 Console.WriteLine("Connected!");
-
-                data = null;
-
-                // Get a stream object for reading and writing
-                NetworkStream stream = client.GetStream();
-
                 int i;
                 string userinput = Console.ReadLine();
                 if (userinput != null)
                 {
                     Console.WriteLine(Console.ReadLine());
                 }
-                while ((i = stream.Read(bytes, 0, bytes.Length))!=0)
+                while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
                 {
                     // Translate data bytes to a ASCII string.
                     data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                    Console.WriteLine("Received: {0}", data);
-
-                    if(data.Substring(0,2) == "*&")
+                    if (data.Substring(0, 2) == "*&")
                     {
-                        if(!RunCommand(data))
-                        {
-                            break;
-                        }
+                        RunCommand(data);
                     }
-                    // Process the data sent by the client.
-                    data = data.ToUpper();
-
-                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
-
-                    // Send back a response.
-                    Console.WriteLine("Sent: {0}", data);
+                    else
+                    {
+                        Console.WriteLine("Received: {0}", data);
+                    }
+                    if(!tcpClient.Connected)
+                    {
+                        ServerProgram.playerList.Remove(this);
+                        connect = false;
+                    }
                 }
-                
             }
+            
         }
-        public static void SendMessage()
+        public void sendClientMessage(string msg)
         {
-            NetworkStream stream = client.GetStream();
-            stream.Write(msg, 0, msg.Length);
+            byte[] message = System.Text.Encoding.ASCII.GetBytes(msg);
+            this.stream.Write(message);
         }
-        public static bool RunCommand(string fullcommand)
+
+        public void RunCommand(string fullcommand)
         {
             int command = int.Parse(fullcommand[2].ToString());
             switch (command)
@@ -89,17 +69,42 @@ namespace GameServer
                 case 0:
                     {
                         Console.Write("Client Requested ID");
-                        playerList.Add(new Player(playerList.Count));
-
-                    }break;
+                        sendClientMessage(id.ToString());
+                    }
+                    break;
                 case 1:
-                {
-                    Console.Write("Message Recieved From Client");
-                    return false;
-                }
-                default:break;
+                    {
+                        Console.Write("Message Recieved From Client");
+                    }break;
+                    case 2:
+                    {
+                        Console.Write("echoing: " + fullcommand.Substring(4));
+                    }break;
+                default: break;
             }
-            return true;
         }
+    }
+    class ServerProgram //SERVER
+    {
+        static Int32 port = 13000;
+        static IPAddress localaddr = IPAddress.Parse("0.0.0.0");
+        static TcpListener server = new TcpListener(localaddr, port);
+        public static List<Player> playerList = new List<Player>();
+
+        static void Main()
+        {
+            Console.WriteLine("Server Starting");
+            server.Start();
+            while(true)
+            {
+                Console.Write("Waiting for a connection... ");
+
+                // Perform a blocking call to accept requests.
+                // You could also use server.AcceptSocket() here.
+                TcpClient client = server.AcceptTcpClient();
+                playerList.Add(new Player(client, client.GetStream(), playerList.Count + 1));
+            }
+        }
+        
     }
 }
