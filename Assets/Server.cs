@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System;
 using UnityEngine.Events;
+using System.Net.Sockets;
+using System;
+using System.Threading.Tasks;
+
 namespace ServerStuff
 {
     public class Server
@@ -14,35 +11,59 @@ namespace ServerStuff
         static TcpClient client;
         static byte[] data;
         static string recieved;
-        public static bool RunCommand(string fullcommand)
+        static int id;
+        public static string name;
+        static int GameID;
+        public static UnityEvent<int> introStart = new UnityEvent<int>();
+        public static void RunCommand(string fullcommand)
         {
-            int command = int.Parse(fullcommand.Substring(2, 3));
+            int command = int.Parse(fullcommand[2].ToString());
+            string[] args = fullcommand.Substring(3).Split(',');
             switch (command)
             {
-                case 1:
+                case 3: // rejected
                     {
-                        Debug.Log("Message Recieved From Server");
-                        if (!GameObject.Find(GetArg(fullcommand, 0)))
+                        Debug.Log("Ok something was rejected, now what was it");
+                        if (args[0] == "name")
                         {
-                            Debug.LogError("GameObject Sent by Server aint there, you done messed up bruv");
-                            break;
+                            Debug.Log("Name is not actually, " + name);
+                            name = null;
                         }
-                        try
+                    }break;
+                case 4: //accepted
+                    {
+                        Debug.Log("Ok something was accepted, now what was it");
+                        if (args[0] == "name")
                         {
-                            float x = float.Parse(GetArg(fullcommand, 1));
-                            float y = float.Parse(GetArg(fullcommand, 1));
-                            float z = float.Parse(GetArg(fullcommand, 1));
-                            GameObject.Find(GetArg(fullcommand, 0)).transform.position = new Vector3(x, y, z);
+                            Debug.Log("Name is now, " + name);
+                            Debug.Log(name);
                         }
-                        catch
+                        if (args[0] == "id")
                         {
-                            Debug.LogError("Positions Recived From Server Are messed up");
+                            id = int.Parse(args[1]);
+                            Debug.Log("id is now, " + id);
+                            Debug.Log(id.ToString());
                         }
-                        return false;
                     }
+                    break;
+                case 5: //StartGame
+                    {
+                        if(args[0] == "Trivas&Tribulations")
+                        {
+                            GameID = 1;
+                        }
+                    }break;
+                case 6: //Game Actions
+                    {
+                        switch(args[0])
+                        {
+                            //Generics
+                            case "intro": { introStart.Invoke(GameID); }break;
+                            default: break;
+                        }
+                    }break;
                 default: break;
             }
-            return true;
         }
 
         public static string GetArg(string command, int index)
@@ -55,27 +76,34 @@ namespace ServerStuff
         {
             return client.Connected;
         }
-        public static bool GetServerMessageStatus()
+        public static void ListenToServer() //client is good friend, be like client
         {
-            int i;
-            try
+            byte[] bytes = new byte[256];
+            while (true)
             {
                 NetworkStream stream = client.GetStream();
-                if ((i = stream.Read(data, 0, data.Length)) != 0)
+                int i;
+                try
                 {
-                    recieved = Encoding.ASCII.GetString(data, 0, i);
-                    Debug.Log("Received: " + recieved);
-
-                    SendMessageToServer("*&1");
-                    Debug.Log("Sent confirmation");
-                    return true;
+                    while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
+                    {
+                        string sdata = null;
+                        // Translate data bytes to a ASCII string.
+                        sdata = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
+                        if (sdata.Substring(0, 2) == "*&")
+                        {
+                            RunCommand(sdata);
+                        }
+                        else
+                        {
+                            Debug.Log(sdata);
+                        }
+                    }
+                }catch(Exception e)
+                {
+                    Debug.Log(e);
                 }
             }
-            catch
-            {
-            }
-            
-            return false;
         }
 
         public static void SendMessageToServer(string message)
@@ -86,18 +114,25 @@ namespace ServerStuff
             Debug.Log("sent: " + message + " to server");
         }
 
+        public static void DisconnectFromServer()
+        {
+            client.Close();
+        }
+
         public static bool ConnectToServer(string ip, Int32 port)
         {
             try
             {
                 client = new TcpClient(ip, port);
                 SendMessageToServer("*&0");
+                Task.Run(() => ListenToServer());
             }
             catch
             {
                 return false;
             }
             return true;
+
         }
     }
 }
